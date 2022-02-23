@@ -7,9 +7,15 @@ class CreateUserController {
 
   handle(request: Request, response: Response): Response {
     const { email, name } = request.body;
-    this.createUserUseCase.execute({ name, email });
-
-    return response.status(201).send();
+    try {
+      const user = this.createUserUseCase.execute({ name, email });
+      return response.status(201).json(user).send();
+    } catch {
+      return response
+        .status(400)
+        .json({ error: "Email or password are wrong!" })
+        .send();
+    }
   }
 }
 
