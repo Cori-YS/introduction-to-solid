@@ -1,0 +1,118 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Introduction to Solid Documentation",
+    "description": "This is an API for users management",
+    "version": "1.0.0",
+    "contact": {
+      "email": "ismeliocori@hotmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a user",
+        "description": "Create a new user, then it will be returned in the response body",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "user name sample",
+                  "email": "ismeliocori@sample.com"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Email or name are wrong!"
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary": "List all users",
+        "description": "Get the user id in the headers, and if the user in an admin it will return in the response body a list of all users ",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "Id of the user who has to be an admin admin",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucess, the user is an admin"
+          },
+          "400": {
+            "description": "Someting is wrong!"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["User"],
+        "description": "Gets the user id in the route params, and show the profile",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "Id of the user to be show the profile",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucess"
+          },
+          "404": {
+            "description": "User does not exists"
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["User"],
+        "description": "Turns user into an admin by id, if the user exists it will be returned in the response body",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "Id of the user to be turned admin",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucess"
+          },
+          "404": {
+            "description": "User does not exists"
+          }
+        }
+      }
+    }
+  }
+}
